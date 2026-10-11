@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - PartnerFinder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container" style="display: flex; justify-content: space-between;">
+            <a href="dashboard.html" class="brand">PartnerFinder</a>
+            <div class="nav-links">
+                <span id="user-greeting" style="font-weight: 500; font-size: 14px;"></span>
+                <button id="logout-btn" class="btn btn-text">Log Out</button>
+            </div>
+        </div>
+    </nav>
+    <div class="app-layout">
+        <aside class="sidebar">
+            <ul class="sidebar-nav">
+                <li><a href="dashboard.html" class="active">Dashboard</a></li>
+                <li><a href="find-partners.html">Find Partners</a></li>
+                <li><a href="requests.html">Requests <span id="req-badge" style="display:none; background:var(--accent-primary); color:white; border-radius:50%; padding:2px 6px; font-size:12px; margin-left:8px;">0</span></a></li>
+                <li><a href="connections.html">Connections</a></li>
+                <li><a href="profile.html">Profile Settings</a></li>
+            </ul>
+        </aside>
+        <main class="main-content">
+            <h1 class="mb-lg">Dashboard</h1>
+            <div class="dashboard-grid">
+                <div class="card">
+                    <h3>Profile Completion</h3>
+                    <div style="display: flex; justify-content: space-between; align-items: flex-end;">
+                        <p style="margin: 0;">Complete your profile for better matches.</p>
+                        <span id="profile-pct" style="font-weight: 600; font-size: 24px; color: var(--accent-primary);">0%</span>
+                    </div>
+                    <div class="progress-container">
+                        <div id="profile-progress" class="progress-bar" style="width: 0%;"></div>
+                    </div>
+                    <div class="mt-md">
+                        <a href="profile.html" class="btn btn-secondary" style="width: 100%;">Update Profile</a>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Recent Notifications</h3>
+                    <ul class="item-list" id="notifications-list">
+                        <li><p>Loading notifications...</p></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="dashboard-grid">
+                <div class="card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                        <h3 style="margin:0;">Top Compatible Partners</h3>
+                        <a href="find-partners.html" style="font-size: 14px;">View all</a>
+                    </div>
+                    <div id="top-matches">
+                        <p>Loading matches...</p>
+                    </div>
+                </div>
+                <div class="card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+                        <h3 style="margin:0;">Recent Connections</h3>
+                        <a href="connections.html" style="font-size: 14px;">View all</a>
+                    </div>
+                    <div id="recent-connections">
+                        <p>Loading connections...</p>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script type="module" src="js/supabase-config.js"></script>
+    <script type="module" src="js/dashboard.js"></script>
+</body>
+</html>

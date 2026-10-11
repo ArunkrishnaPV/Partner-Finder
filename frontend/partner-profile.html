@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Partner Profile - PartnerFinder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="dashboard.html" class="brand">PartnerFinder</a>
+        </div>
+    </nav>
+    <div class="app-layout">
+        <aside class="sidebar">
+            <ul class="sidebar-nav">
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="find-partners.html">Find Partners</a></li>
+                <li><a href="requests.html">Requests</a></li>
+                <li><a href="connections.html">Connections</a></li>
+                <li><a href="profile.html">Profile Settings</a></li>
+            </ul>
+        </aside>
+        <main class="main-content">
+            <div style="max-width: 800px; margin: 0 auto;">
+                <a href="find-partners.html" style="font-size: 14px; margin-bottom: 24px; display: inline-block;">&larr; Back to Results</a>
+                <div class="card" id="profile-card">
+                    <div style="text-align: center; padding: 40px; color: var(--text-muted);">
+                        Loading profile...
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+    <script type="module" src="js/supabase-config.js"></script>
+    <script type="module">
+        import { supabase } from './js/supabase-config.js';
+        const urlParams = new URLSearchParams(window.location.search);
+        const partnerId = urlParams.get('id');
+        
+        supabase.auth.onAuthStateChange(async (event, session) => {
+            if (session && partnerId) {
+                fetchPartnerProfile(session.access_token);
+            } else if (!session) {
+                window.location.href = 'login.html';
+            }
+        });
+
+        async function fetchPartnerProfile(token) {
+            const container = document.getElementById('profile-card');
+            try {
+                const res = await fetch(`http://127.0.0.1:5000/api/partners/${partnerId}`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (!res.ok) throw new Error("Could not fetch profile");
+                
+                const m = await res.json();
+                let scoreClass = 'score-low';
+                if (m.score >= 80) scoreClass = 'score-excellent';
+                else if (m.score >= 60) scoreClass = 'score-good';
+                else if (m.score >= 40) scoreClass = 'score-moderate';
+
+                const subjectsHtml = (m.subjects || []).map(s => `<span class="tag">${s}</span>`).join('');
+                const skillsHtml = (m.skills || []).map(s => `<span class="tag">${s}</span>`).join('');
+                const interestsHtml = (m.interests || []).map(s => `<span class="tag">${s}</span>`).join('');
+
+                container.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 24px;">
+                        <div>
+                            <h2 style="margin-bottom: 4px;">${m.name}</h2>
+                            <p style="color: var(--text-secondary); margin-bottom: 0;">${m.department || 'Unknown'} • Year ${m.year || '?'}</p>
+                            <p style="color: var(--text-secondary); font-size: 14px;">Looking for: ${m.partnerType || 'Study/Project'} Partner</p>
+                        </div>
+                        <div class="match-score" style="text-align: right;">
+                            <span class="score-badge ${scoreClass}">${m.score}% ${m.label}</span>
+                            <p style="font-size: 12px; color: var(--text-muted); margin-top: 8px;">${m.explanation || ''}</p>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 24px;">
+                        <h4 style="margin-bottom: 8px; font-size: 14px;">Subjects</h4>
+                        ${subjectsHtml || '<span style="color: var(--text-muted); font-size: 14px;">None listed</span>'}
+                    </div>
+                    <div style="margin-bottom: 24px;">
+                        <h4 style="margin-bottom: 8px; font-size: 14px;">Skills</h4>
+                        ${skillsHtml || '<span style="color: var(--text-muted); font-size: 14px;">None listed</span>'}
+                    </div>
+                    <div style="margin-bottom: 24px;">
+                        <h4 style="margin-bottom: 8px; font-size: 14px;">Interests</h4>
+                        ${interestsHtml || '<span style="color: var(--text-muted); font-size: 14px;">None listed</span>'}
+                    </div>
+                    <div style="margin-top: 32px; padding-top: 24px; border-top: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center;">
+                        <p style="margin: 0; color: var(--text-secondary); font-size: 14px;">Ready to connect?</p>
+                        <button class="btn btn-primary" id="send-request-btn">Send Request</button>
+                    </div>
+                `;
+            } catch (error) {
+                container.innerHTML = `<div class="auth-error" style="display:block;">Error: ${error.message}</div>`;
+            }
+        }
+    </script>
+</body>
+</html>

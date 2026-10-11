@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Requests - PartnerFinder</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="dashboard.html" class="brand">PartnerFinder</a>
+        </div>
+    </nav>
+    <div class="app-layout">
+        <aside class="sidebar">
+            <ul class="sidebar-nav">
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="find-partners.html">Find Partners</a></li>
+                <li><a href="requests.html" class="active">Requests</a></li>
+                <li><a href="connections.html">Connections</a></li>
+                <li><a href="profile.html">Profile Settings</a></li>
+            </ul>
+        </aside>
+        <main class="main-content">
+            <h2 class="mb-lg">Partner Requests</h2>
+            <div style="margin-bottom: var(--spacing-lg);">
+                <button id="tab-incoming" class="btn btn-primary">Incoming</button>
+                <button id="tab-outgoing" class="btn btn-secondary">Outgoing</button>
+            </div>
+            <div id="requests-container">
+                <div style="text-align: center; padding: 40px; color: var(--text-muted);">
+                    Loading requests...
+                </div>
+            </div>
+        </main>
+    </div>
+    <script type="module" src="js/supabase-config.js"></script>
+    <script type="module" src="js/requests.js"></script>
+</body>
+</html>

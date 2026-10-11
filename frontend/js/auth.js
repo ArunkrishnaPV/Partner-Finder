@@ -1,4 +1,5 @@
 import { supabase } from './supabase-config.js';
+import { API_BASE_URL } from './config.js';
 
 const loginForm = document.getElementById('login-form');
 const registerForm = document.getElementById('register-form');
@@ -44,7 +45,7 @@ if (registerForm) {
                 return;
             }
 
-            const response = await fetch('http://127.0.0.1:5000/api/profile', {
+            const response = await fetch(`${API_BASE_URL}/api/profile`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -83,7 +84,7 @@ if (loginForm) {
 
             // Ensure profile exists in database
             if (data?.session?.access_token) {
-                await fetch('http://127.0.0.1:5000/api/profile', {
+                await fetch(`${API_BASE_URL}/api/profile`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json',

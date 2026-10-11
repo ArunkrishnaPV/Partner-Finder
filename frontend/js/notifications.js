@@ -1,4 +1,5 @@
 import { supabase } from './supabase-config.js';
+import { API_BASE_URL } from './config.js';
 
 let sessionToken = null;
 
@@ -14,7 +15,7 @@ export async function fetchNotifications(token = null) {
     if (!currentToken) return;
     
     try {
-        const res = await fetch('http://127.0.0.1:5000/api/notifications', {
+        const res = await fetch(`${API_BASE_URL}/api/notifications`, {
             headers: { 'Authorization': `Bearer ${currentToken}` }
         });
         
@@ -50,7 +51,7 @@ export async function fetchNotifications(token = null) {
 window.markNotificationRead = async (id) => {
     if(!sessionToken) return;
     try {
-        const res = await fetch(`http://127.0.0.1:5000/api/notifications/${id}/read`, {
+        const res = await fetch(`${API_BASE_URL}/api/notifications/${id}/read`, {
             method: 'PUT',
             headers: { 'Authorization': `Bearer ${sessionToken}` }
         });

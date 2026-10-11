@@ -1,4 +1,5 @@
 import { supabase } from './supabase-config.js';
+import { API_BASE_URL } from './config.js';
 
 let currentSessionToken = null;
 let currentTab = 'incoming';
@@ -36,7 +37,7 @@ async function fetchRequests(type) {
     container.innerHTML = '<div style="text-align: center; padding: 40px; color: var(--text-muted);">Loading requests...</div>';
     
     try {
-        const response = await fetch(`http://127.0.0.1:5000/api/requests?type=${type}`, {
+        const response = await fetch(`${API_BASE_URL}/api/requests?type=${type}`, {
             headers: { 'Authorization': `Bearer ${currentSessionToken}` }
         });
 
@@ -85,7 +86,7 @@ function renderRequests(requests, container, type) {
 
 window.updateRequest = async (id, status) => {
     try {
-        const res = await fetch(`http://127.0.0.1:5000/api/requests/${id}`, {
+        const res = await fetch(`${API_BASE_URL}/api/requests/${id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

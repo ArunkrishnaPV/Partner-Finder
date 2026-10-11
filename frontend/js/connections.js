@@ -1,4 +1,5 @@
 import { supabase } from './supabase-config.js';
+import { API_BASE_URL } from './config.js';
 
 let currentSessionToken = null;
 
@@ -17,7 +18,7 @@ async function fetchConnections() {
     container.innerHTML = '<div style="text-align: center; padding: 40px; color: var(--text-muted);">Loading connections...</div>';
     
     try {
-        const response = await fetch(`http://127.0.0.1:5000/api/connections`, {
+        const response = await fetch(`${API_BASE_URL}/api/connections`, {
             headers: { 'Authorization': `Bearer ${currentSessionToken}` }
         });
 

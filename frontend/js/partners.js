@@ -1,4 +1,5 @@
 import { supabase } from './supabase-config.js';
+import { API_BASE_URL } from './config.js';
 
 let currentSessionToken = null;
 
@@ -30,7 +31,7 @@ async function fetchMatches() {
     const type = document.getElementById('filter-type').value;
     const q = document.getElementById('search-query').value;
 
-    let url = new URL('http://127.0.0.1:5000/api/partners');
+    let url = new URL(`${API_BASE_URL}/api/partners`);
     if (dept) url.searchParams.append('dept', dept);
     if (year) url.searchParams.append('year', year);
     if (type) url.searchParams.append('type', type);

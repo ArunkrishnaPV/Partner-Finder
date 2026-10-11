@@ -1,4 +1,5 @@
 import { supabase } from './supabase-config.js';
+import { API_BASE_URL } from './config.js';
 
 const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 const times = ['morning', 'afternoon', 'evening'];
@@ -42,7 +43,7 @@ supabase.auth.onAuthStateChange(async (event, session) => {
     if (session) {
         currentSession = session;
         try {
-            const res = await fetch('http://127.0.0.1:5000/api/profile/me', {
+            const res = await fetch(`${API_BASE_URL}/api/profile/me`, {
                 headers: { 'Authorization': `Bearer ${session.access_token}` }
             });
             if (res.ok) {
@@ -111,7 +112,7 @@ if (form) {
         };
 
         try {
-            const res = await fetch('http://127.0.0.1:5000/api/profile/me', {
+            const res = await fetch(`${API_BASE_URL}/api/profile/me`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',

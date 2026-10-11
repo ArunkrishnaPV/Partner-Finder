@@ -38,6 +38,7 @@
     <script type="module" src="js/supabase-config.js"></script>
     <script type="module">
         import { supabase } from './js/supabase-config.js';
+        import { API_BASE_URL } from './js/config.js';
         const urlParams = new URLSearchParams(window.location.search);
         const partnerId = urlParams.get('id');
         
@@ -52,7 +53,7 @@
         async function fetchPartnerProfile(token) {
             const container = document.getElementById('profile-card');
             try {
-                const res = await fetch(`http://127.0.0.1:5000/api/partners/${partnerId}`, {
+                const res = await fetch(`${API_BASE_URL}/api/partners/${partnerId}`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 if (!res.ok) throw new Error("Could not fetch profile");
